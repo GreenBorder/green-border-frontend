@@ -1,15 +1,34 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 export default function Warnings() {
+
+const location = useLocation();
+const fileId = location.state?.file_id;
+const result = location.state?.result;
+const navigate = useNavigate();
+const warnings = Array.isArray(result?.warnings) ? result.warnings : [];
+const [acknowledged, setAcknowledged] = useState(false);
+
+const goToPreview = () => {
+  navigate("/preview", { state: { file_id: fileId, result } });
+};
+
   return (
     <div>
       <h1>Warnings</h1>
 
-      <div>
-        Aucun avertissement détecté.
-      </div>
+      {warnings.length === 0 && (
+  <div>
+    Aucun avertissement détecté.
+  </div>
+)}
 
-      <div>
-        [X] avertissement(s) détecté(s).
-      </div>
+      {warnings.length > 0 && (
+  <>
+    <div>
+      [X] avertissement(s) détecté(s).
+    </div>
 
       <div>
         Ces éléments ne bloquent pas l'export.
@@ -32,12 +51,20 @@ export default function Warnings() {
       </div>
 
       <div>
-        J'ai pris connaissance de ces avertissements
-      </div>
+  <input
+    type="checkbox"
+    checked={acknowledged}
+    onChange={(e) => setAcknowledged(e.target.checked)}
+  />
+  J'ai pris connaissance de ces avertissements
+</div>
 
-      <div>
-        Continuer
-      </div>
+      <div
+  onClick={acknowledged ? goToPreview : undefined}
+  style={{ opacity: acknowledged ? 1 : 0.5 }}
+>
+  Continuer
+</div>
 
       <div>
         Corriger le fichier
@@ -82,7 +109,8 @@ export default function Warnings() {
       <div>
         Ratio : [X]
       </div>
-
+  </>
+)}
     </div>
   );
 }

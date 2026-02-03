@@ -1,4 +1,38 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 export default function Legal() {
+  
+  const location = useLocation();
+  const fileId = location.state?.file_id;
+  const result = location.state?.result;
+  const navigate = useNavigate();
+  const [attestOne, setAttestOne] = useState(false);
+  const [attestTwo, setAttestTwo] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const exportFile = async () => {
+  if (!attestOne || !attestTwo) {
+    setShowError(true);
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`
+    );
+
+
+    if (!response.ok) {
+      throw new Error("export_failed");
+    }
+
+    navigate("/export", { state: { file_id: fileId } });
+  } catch (err) {
+    // aucune gestion UI ici à ce stade
+  }
+};
+
   return (
     <div>
       <h1>Validation finale</h1>
@@ -12,12 +46,22 @@ export default function Legal() {
       </div>
 
       <div>
-        J'atteste que ces tracés correspondent aux parcelles réelles.
-      </div>
+  <input
+    type="checkbox"
+    checked={attestOne}
+    onChange={(e) => setAttestOne(e.target.checked)}
+  />
+  J'atteste que ces tracés correspondent aux parcelles réelles.
+</div>
 
       <div>
-        J'ai vérifié la conformité de ces tracés avec mes documents de référence.
-      </div>
+  <input
+    type="checkbox"
+    checked={attestTwo}
+    onChange={(e) => setAttestTwo(e.target.checked)}
+  />
+  J'ai vérifié la conformité de ces tracés avec mes documents de référence.
+</div>
 
       <div>
         Green-Border ne vérifie pas :
@@ -36,9 +80,17 @@ export default function Legal() {
         - La conformité réglementaire EUDR
       </div>
 
-      <div>
-        Exporter le fichier
-      </div>
+{showError && (
+  <div>
+    Les deux attestations doivent être cochées pour continuer.
+  </div>
+)}
+      <div
+  onClick={exportFile}
+  style={{ opacity: attestOne && attestTwo ? 1 : 0.5 }}
+>
+  Exporter le fichier
+</div>
 
       <div>
         Annuler
