@@ -18,9 +18,9 @@ export default function Legal() {
 
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`
-    );
-
+  `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
+  { method: "POST" }
+);
 
     if (!response.ok) {
       throw new Error("export_failed");
