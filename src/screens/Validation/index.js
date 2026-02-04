@@ -6,9 +6,7 @@ export default function Validation() {
 
   const location = useLocation();
   const fileId = location.state?.file_id;
-  const [loading, setLoading] = useState(true);
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
   const [blockingErrors, setBlockingErrors] = useState([]);
   const navigate = useNavigate();
 
@@ -16,8 +14,6 @@ export default function Validation() {
   if (!fileId) return;
 
   const runValidation = async () => {
-    setLoading(true);
-    setError(null);
 
     try {
       const response = await fetch(
@@ -33,9 +29,7 @@ export default function Validation() {
       setResult(data);
       setBlockingErrors(data.blocking_anomalies || []);
     } catch (err) {
-      setError("validation_failed");
     } finally {
-      setLoading(false);
     }
   };
 

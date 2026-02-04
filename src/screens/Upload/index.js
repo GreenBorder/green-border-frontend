@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Upload() {
 
-  const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [error, setError] = useState(null);
-  const [fileId, setFileId] = useState(null);
   const [uploadErrorCode, setUploadErrorCode] = useState(null);
   const navigate = useNavigate();
 
@@ -16,8 +12,6 @@ export default function Upload() {
   formData.append("file", selectedFile);
 
   setUploading(true);
-  setProgress(0);
-  setError(null);
 
   try {
     const response = await fetch(
@@ -34,11 +28,9 @@ export default function Upload() {
     }
 
     const data = await response.json();
-    setFileId(data.file_id);
     navigate("/validation", { state: { file_id: data.file_id } });
   } catch (err) {
       setUploadErrorCode("network");
-      setError("upload_failed");
     }
     finally {
     setUploading(false);
@@ -70,7 +62,6 @@ export default function Upload() {
             const selectedFile = e.target.files[0];
             if (!selectedFile) return;
 
-            setFile(selectedFile);
             uploadFile(selectedFile);
           }}
         />

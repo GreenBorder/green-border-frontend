@@ -5,7 +5,6 @@ export default function Legal() {
   
   const location = useLocation();
   const fileId = location.state?.file_id;
-  const result = location.state?.result;
   const navigate = useNavigate();
   const [attestOne, setAttestOne] = useState(false);
   const [attestTwo, setAttestTwo] = useState(false);
