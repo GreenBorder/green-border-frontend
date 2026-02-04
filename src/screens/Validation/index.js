@@ -121,93 +121,17 @@ export default function Validation() {
     </div>
 
     <div>
-      [X] anomalie(s) bloquante(s) détectée(s).
+      {blockingErrors.length} anomalie(s) bloquante(s) détectée(s).
     </div>
 
-    <div>
-      Format JSON invalide.
-    </div>
-    <div>
-      Ligne [X], caractère [Y] : [détail erreur]
-    </div>
-
-    <div>
-      Type de géométrie non accepté.
-    </div>
-    <div>
-      Géométrie détectée : [Point/LineString]
-    </div>
-    <div>
-      Types acceptés : Polygon, MultiPolygon
-    </div>
-    <div>
-      Feature concerné : [ID ou index]
-    </div>
-
-    <div>
-      Polygone non fermé.
-    </div>
-    <div>
-      Le premier et le dernier point doivent être identiques.
-    </div>
-    <div>
-      Feature concerné : [ID ou index]
-    </div>
-    <div>
-      Première coordonnée : [lon, lat]
-    </div>
-    <div>
-      Dernière coordonnée : [lon, lat]
-    </div>
-
-    <div>
-      Auto-intersection détectée.
-    </div>
-    <div>
-      Le polygone se croise lui-même.
-    </div>
-    <div>
-      Feature concerné : [ID ou index]
-    </div>
-
-    <div>
-      Orientation des anneaux non conforme RFC 7946.
-    </div>
-    <div>
-      Anneau extérieur : sens anti-horaire requis.
-    </div>
-    <div>
-      Trous intérieurs : sens horaire requis.
-    </div>
-    <div>
-      Feature concerné : [ID ou index]
-    </div>
-
-    <div>
-      Coordonnées hors limites géographiques.
-    </div>
-    <div>
-      Latitude : -90 à +90
-    </div>
-    <div>
-      Longitude : -180 à +180
-    </div>
-    <div>
-      Feature concerné : [ID ou index]
-    </div>
-    <div>
-      Coordonnée détectée : [lon, lat]
-    </div>
-
-    <div>
-      Système de coordonnées non accepté.
-    </div>
-    <div>
-      Système détecté : [EPSG:XXXX ou nom]
-    </div>
-    <div>
-      Système requis : WGS84 (EPSG:4326)
-    </div>
+    {blockingErrors.map((err, index) => (
+      <div key={index}>
+        <div>{err.message}</div>
+        {err.feature_id && (
+          <div>Feature concerné : {err.feature_id}</div>
+        )}
+      </div>
+    ))}
   </>
 )}
 
