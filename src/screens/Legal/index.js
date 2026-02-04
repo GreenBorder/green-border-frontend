@@ -16,20 +16,8 @@ export default function Legal() {
     return;
   }
 
-  try {
-    const response = await fetch(
-  `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
-  { method: "POST" }
-);
+  navigate("/export", { state: { file_id: fileId } });
 
-    if (!response.ok) {
-      throw new Error("export_failed");
-    }
-
-    navigate("/export", { state: { file_id: fileId } });
-  } catch (err) {
-    // aucune gestion UI ici à ce stade
-  }
 };
 
   return (
