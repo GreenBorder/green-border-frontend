@@ -14,24 +14,32 @@ export default function Validation() {
   if (!fileId) return;
 
   const runValidation = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/validate/${fileId}`,
+      { method: "POST" }
+    );
 
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/validate/${fileId}`,
-        { method: "POST" }
-      );
-
-      if (!response.ok) {
-        throw new Error("validation_failed");
-      }
-
+    // CAS BLOQUANT — HTTP 422
+    if (response.status === 422) {
       const data = await response.json();
-      setResult(data);
-      setBlockingErrors(data.blocking_anomalies || []);
-    } catch (err) {
-    } finally {
+      setBlockingErrors(Array.isArray(data) ? data : [data]);
+      return;
     }
-  };
+
+    // AUTRES ERREURS
+    if (!response.ok) {
+      throw new Error("validation_failed");
+    }
+
+    // CAS OK — HTTP 200
+    const data = await response.json();
+    setResult(data);
+    setBlockingErrors([]);
+  } catch (err) {
+    // rien ici volontairement
+  }
+};
 
   runValidation();
 }, [fileId]);
