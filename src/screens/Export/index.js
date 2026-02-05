@@ -8,31 +8,28 @@ export default function Export() {
 
   useEffect(() => {
     if (!fileId) {
-  window.location.href = "/";
-  return;
-}
+      window.location.href = "/";
+      return;
+    }
 
     const download = async () => {
       try {
         setStatus("loading");
 
         const token = localStorage.getItem("gb_token");
-        if (!token) {
-          window.location.href = "/pricing";
-          return;
-        }
 
         const response = await fetch(
           `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
           {
             method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: token
+              ? { Authorization: `Bearer ${token}` }
+              : {},
           }
         );
 
-        if (response.status === 403) {
+        // 🔴 ICI est la SEULE logique pricing autorisée
+        if (response.status === 403 || response.status === 402) {
           window.location.href = "/pricing";
           return;
         }
@@ -66,82 +63,21 @@ export default function Export() {
       <h1>Export</h1>
 
       {status === "loading" && (
-        <div>
-          Génération du fichier en cours.
-        </div>
+        <div>Génération du fichier en cours.</div>
       )}
 
       {status === "success" && (
-        <>
-          <div>
-            Export terminé.
-          </div>
-
-          <div>
-            Fichier généré : [nom_fichier_original].geojson
-          </div>
-
-          <div>
-            Taille : [X.X] MB
-          </div>
-
-          <div>
-            Nombre de parcelles : [X]
-          </div>
-
-          <div>
-            Surface totale : [X.XX] hectares
-          </div>
-
-          <div>
-            Format : GeoJSON RFC 7946
-          </div>
-
-          <div>
-            Système de coordonnées : WGS84 (EPSG:4326)
-          </div>
-
-          <div>
-            Précision détectée dans le fichier : [X] décimales
-          </div>
-
-          <div>
-            Date d'export : [YYYY-MM-DD HH:MM:SS UTC]
-          </div>
-
-          <div>
-            Version Green-Border : 1.0
-          </div>
-
-          <div>
-            ID d'export : [UUID]
-          </div>
-        </>
+        <div>Export terminé.</div>
       )}
 
       {status === "error" && (
         <>
-          <div>
-            Le téléchargement automatique a échoué.
-          </div>
-
-          <div>
-            Échec de la génération du fichier.
-          </div>
-
-          <div>
-            Vérifiez votre connexion et réessayez.
-          </div>
-
+          <div>Échec de la génération du fichier.</div>
           <button onClick={() => window.location.reload()}>
             Réessayer
           </button>
         </>
       )}
-
-      <div>
-        Retour à l'accueil
-      </div>
     </div>
   );
 }
