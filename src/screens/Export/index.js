@@ -7,7 +7,10 @@ export default function Export() {
   const [status, setStatus] = useState("loading"); // loading | success | error
 
   useEffect(() => {
-    if (!fileId) return;
+    if (!fileId) {
+  window.location.href = "/";
+  return;
+}
 
     const download = async () => {
       try {
