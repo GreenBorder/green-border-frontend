@@ -6,6 +6,7 @@ import Warnings from './screens/Warnings';
 import Preview from './screens/Preview';
 import Legal from './screens/Legal';
 import Export from './screens/Export';
+import Pricing from './screens/Pricing';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/preview" element={<Preview />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/export" element={<Export />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Routes>
     </BrowserRouter>
   );
