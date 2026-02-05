@@ -122,17 +122,11 @@ if (!response.ok) {
         Le téléchargement automatique a échoué.
       </div>
 
-      <div>
-        Cliquez sur "Télécharger" pour lancer le téléchargement manuellement.
-      </div>
-
-      <div>
-        Télécharger
-      </div>
-
-      <div>
-        Télécharger à nouveau
-      </div>
+      <button
+  onClick={() => window.location.reload()}
+>
+  Réessayer
+</button>
 
       <div>
         Traiter un nouveau fichier
