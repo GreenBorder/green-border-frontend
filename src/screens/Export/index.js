@@ -7,55 +7,54 @@ export default function Export() {
   const fileId = location.state?.file_id;
   const [status, setStatus] = useState("loading"); // loading | success | error
 
-  useEffect(() => {
-  if (!fileId) return;
-
   const download = async () => {
-    try {
-  setStatus("loading");
+  try {
+    setStatus("loading");
 
-      const token = localStorage.getItem("gb_token");
+    const token = localStorage.getItem("gb_token");
     if (!token) {
       window.location.href = "/pricing";
       return;
     }
 
-  const response = await fetch(
-  `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
-  {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${token}`
+    const response = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 403) {
+      window.location.href = "/pricing";
+      return;
     }
+
+    if (!response.ok) {
+      throw new Error("download_failed");
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+    setStatus("success");
+  } catch {
+    setStatus("error");
   }
-);
+};
 
-      if (response.status === 403) {
-  window.location.href = "/pricing";
-  return;
-}
-
-if (!response.ok) {
-  throw new Error("download_failed");
-}
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      window.URL.revokeObjectURL(url);
-      setStatus("success");
-    } catch (err) {
-  setStatus("error");
-}
-  };
-
+useEffect(() => {
+  if (!fileId) return;
   download();
 }, [fileId]);
 
