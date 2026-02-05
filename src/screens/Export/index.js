@@ -14,14 +14,30 @@ export default function Export() {
     try {
   setStatus("loading");
 
+      const token = localStorage.getItem("gb_token");
+    if (!token) {
+      window.location.href = "/pricing";
+      return;
+    }
+
   const response = await fetch(
   `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
-  { method: "POST" }
+  {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  }
 );
 
-      if (!response.ok) {
-        throw new Error("download_failed");
-      }
+      if (response.status === 403) {
+  window.location.href = "/pricing";
+  return;
+}
+
+if (!response.ok) {
+  throw new Error("download_failed");
+}
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
