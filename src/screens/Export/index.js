@@ -27,8 +27,9 @@ export default function Export() {
           {
             method: "POST",
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+  Authorization: `Bearer ${token}`,
+  "x-api-key": token,
+},
           }
         );
 
