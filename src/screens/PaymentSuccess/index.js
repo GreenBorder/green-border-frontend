@@ -17,10 +17,16 @@ export default function PaymentSuccess() {
       });
   }, [params]);
 
-  return (
+    return (
     <div style={{ padding: "40px" }}>
       <h1>Paiement confirmé</h1>
       <p>Vos crédits sont disponibles.</p>
+
+      <div style={{ marginTop: "20px" }}>
+        <a href="/" style={{ textDecoration: "underline" }}>
+          Revenir à l’outil
+        </a>
+      </div>
     </div>
   );
 }
