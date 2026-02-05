@@ -17,19 +17,22 @@ export default function Export() {
         setStatus("loading");
 
         const token = localStorage.getItem("gb_token");
+        if (!token) {
+          window.location.href = "/pricing";
+          return;
+        }
 
         const response = await fetch(
           `${process.env.REACT_APP_API_BASE_URL}/export/${fileId}`,
           {
             method: "POST",
-            headers: token
-              ? { Authorization: `Bearer ${token}` }
-              : {},
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
-        // 🔴 ICI est la SEULE logique pricing autorisée
-        if (response.status === 403 || response.status === 402) {
+        if (response.status === 403) {
           window.location.href = "/pricing";
           return;
         }
@@ -62,22 +65,19 @@ export default function Export() {
     <div>
       <h1>Export</h1>
 
-      {status === "loading" && (
-        <div>Génération du fichier en cours.</div>
-      )}
+      {status === "loading" && <div>Génération du fichier en cours.</div>}
 
-      {status === "success" && (
-        <div>Export terminé.</div>
-      )}
+      {status === "success" && <div>Export terminé.</div>}
 
       {status === "error" && (
         <>
-          <div>Échec de la génération du fichier.</div>
-          <button onClick={() => window.location.reload()}>
-            Réessayer
-          </button>
+          <div>Le téléchargement automatique a échoué.</div>
+          <div>Vérifiez votre connexion et réessayez.</div>
+          <button onClick={() => window.location.reload()}>Réessayer</button>
         </>
       )}
+
+      <div>Retour à l'accueil</div>
     </div>
   );
 }
