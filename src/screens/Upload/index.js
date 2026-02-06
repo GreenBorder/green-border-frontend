@@ -83,9 +83,19 @@ export default function Upload() {
       <div>
         {credits === 0 && (
   <div>
-    Vous n’avez plus de crédits disponibles.
-    <br />
-    Merci de choisir un pack pour continuer.
+    <div>
+      Vous n’avez plus de crédits disponibles.
+    </div>
+
+    <div>
+      Merci de choisir un pack pour continuer.
+    </div>
+
+    <div style={{ marginTop: "12px" }}>
+      <button onClick={() => navigate("/pricing")}>
+        Acheter des crédits
+      </button>
+    </div>
   </div>
 )}
         <input
