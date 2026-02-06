@@ -85,25 +85,27 @@ export default function Preview() {
       )}
 
       <div style={{ marginBottom: "16px" }}>
-        <div
+        <button
           onClick={goToLegal}
-          style={{ cursor: "pointer", display: "inline-block" }}
+          style={{ cursor: "pointer" }}
           onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
           onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
         >
           Valider et exporter
-        </div>
+        </button>
       </div>
 
-      <div style={{ marginBottom: "8px" }}>
-        <div
-          onClick={() => navigate("/warnings", { state: { file_id: fileId, result } })}
-          style={{ cursor: "pointer", display: "inline-block" }}
+      <div>
+        <button
+          onClick={() =>
+            navigate("/warnings", { state: { file_id: fileId, result } })
+          }
+          style={{ cursor: "pointer" }}
           onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
           onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
         >
           Voir les avertissements
-        </div>
+        </button>
       </div>
     </div>
   );

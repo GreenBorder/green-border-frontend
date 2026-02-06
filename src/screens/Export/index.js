@@ -107,14 +107,14 @@ export default function Export() {
       )}
 
       <div>
-        <div
+        <button
           onClick={() => (window.location.href = "/")}
-          style={{ cursor: "pointer", display: "inline-block" }}
+          style={{ cursor: "pointer" }}
           onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
           onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
         >
           Retour à l'accueil
-        </div>
+        </button>
       </div>
     </div>
   );

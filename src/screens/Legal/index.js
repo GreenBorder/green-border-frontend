@@ -85,12 +85,12 @@ export default function Legal() {
       )}
 
       <div style={{ marginBottom: "16px" }}>
-        <div
+        <button
           onClick={exportFile}
+          disabled={!(attestOne && attestTwo)}
           style={{
             cursor: attestOne && attestTwo ? "pointer" : "default",
             opacity: attestOne && attestTwo ? 1 : 0.5,
-            display: "inline-block",
           }}
           onMouseOver={(e) => {
             if (attestOne && attestTwo) e.currentTarget.style.opacity = "0.8";
@@ -100,18 +100,18 @@ export default function Legal() {
           }}
         >
           Exporter le fichier
-        </div>
+        </button>
       </div>
 
       <div>
-        <div
+        <button
           onClick={() => navigate(-1)}
-          style={{ cursor: "pointer", display: "inline-block" }}
+          style={{ cursor: "pointer" }}
           onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
           onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
         >
           Annuler
-        </div>
+        </button>
       </div>
     </div>
   );
