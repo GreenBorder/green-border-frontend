@@ -33,10 +33,19 @@ export default function Export() {
           }
         );
 
-        if (response.status === 403) {
-          window.location.href = "/pricing";
-          return;
-        }
+        if (!response.ok) {
+  const errorData = await response.json().catch(() => null);
+
+  if (
+    response.status === 403 &&
+    errorData?.message === "Crédits épuisés"
+  ) {
+    window.location.href = "/pricing";
+    return;
+  }
+
+  throw new Error("download_failed");
+}
 
         if (!response.ok) {
           throw new Error("download_failed");
