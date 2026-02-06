@@ -1,10 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Upload() {
 
   const [uploading, setUploading] = useState(false);
   const [uploadErrorCode, setUploadErrorCode] = useState(null);
+  const [credits, setCredits] = useState(null);
+
+  useEffect(() => {
+  const token = localStorage.getItem("gb_token");
+  if (!token) {
+    setCredits(0);
+    return;
+  }
+
+  fetch(`${process.env.REACT_APP_API_BASE_URL}/credits`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setCredits(data.credits);
+    })
+    .catch(() => {
+      setCredits(0);
+    });
+}, []);
+
   const navigate = useNavigate();
 
   const uploadFile = async (selectedFile) => {
@@ -40,7 +63,11 @@ export default function Upload() {
   return (
     <div>
       <h1>Upload</h1>
-
+{credits !== null && (
+  <div>
+    Crédits restants : {credits}
+  </div>
+)}
       <div>
         Zone de dépôt de fichier
       </div>
@@ -54,10 +81,17 @@ export default function Upload() {
       </div>
 
       <div>
+        {credits === 0 && (
+  <div>
+    Vous n’avez plus de crédits disponibles.
+    <br />
+    Merci de choisir un pack pour continuer.
+  </div>
+)}
         <input
           type="file"
           accept=".geojson,.json"
-          disabled={uploading}
+          disabled={uploading || credits === 0}
           onChange={(e) => {
             const selectedFile = e.target.files[0];
             if (!selectedFile) return;
