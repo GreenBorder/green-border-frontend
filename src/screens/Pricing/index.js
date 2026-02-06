@@ -16,36 +16,60 @@ async function buyPack(priceId) {
 
 export default function Pricing() {
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Choisir un pack de crédits</h1>
+    <div style={{ padding: "40px", maxWidth: "720px" }}>
+      <h1 style={{ marginBottom: "24px" }}>
+        Choisir un pack de crédits
+      </h1>
 
-      <button
-        onClick={() =>
-          buyPack("price_1SxQOCH27V3cOtxesaN0eL3Y")
-        }
-      >
-        Acheter – Pack Start (49 € / 10 crédits)
-      </button>
+      <div style={{ marginBottom: "16px" }}>
+        <button
+          onClick={() =>
+            buyPack("price_1SxQOCH27V3cOtxesaN0eL3Y")
+          }
+          style={{ cursor: "pointer" }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+        >
+          Acheter – Pack Start (49 € / 10 crédits)
+        </button>
+      </div>
 
-      <br /><br />
+      <div style={{ marginBottom: "16px" }}>
+        <button
+          onClick={() =>
+            buyPack("price_1SxQR9H27V3cOtxeZBWrhxOg")
+          }
+          style={{ cursor: "pointer" }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+        >
+          Acheter – Pack Pro (199 € / 50 crédits)
+        </button>
+      </div>
 
-      <button
-        onClick={() =>
-          buyPack("price_1SxQR9H27V3cOtxeZBWrhxOg")
-        }
-      >
-        Acheter – Pack Pro (199 € / 50 crédits)
-      </button>
+      <div style={{ marginBottom: "32px" }}>
+        <button
+          onClick={() =>
+            buyPack("price_1SxQSiH27V3cOtxeRZooQjU2")
+          }
+          style={{ cursor: "pointer" }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+        >
+          Acheter – Pack Business (699 € / 200 crédits)
+        </button>
+      </div>
 
-      <br /><br />
-
-      <button
-        onClick={() =>
-          buyPack("price_1SxQSiH27V3cOtxeRZooQjU2")
-        }
-      >
-        Acheter – Pack Business (699 € / 200 crédits)
-      </button>
+      <div>
+        <div
+          onClick={() => (window.location.href = "/")}
+          style={{ cursor: "pointer", display: "inline-block" }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+        >
+          Retour
+        </div>
+      </div>
     </div>
   );
 }

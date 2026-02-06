@@ -17,13 +17,25 @@ export default function PaymentSuccess() {
       });
   }, [params]);
 
-    return (
-    <div style={{ padding: "40px" }}>
-      <h1>Paiement confirmé</h1>
-      <p>Vos crédits sont disponibles.</p>
+  return (
+    <div style={{ padding: "40px", maxWidth: "640px" }}>
+      <h1 style={{ marginBottom: "16px" }}>Paiement confirmé</h1>
 
-      <div style={{ marginTop: "20px" }}>
-        <a href="/" style={{ textDecoration: "underline" }}>
+      <p style={{ marginBottom: "24px" }}>
+        Vos crédits sont disponibles.
+      </p>
+
+      <div>
+        <a
+          href="/"
+          style={{
+            textDecoration: "underline",
+            cursor: "pointer",
+            display: "inline-block",
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = "0.8")}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
+        >
           Revenir à l’outil
         </a>
       </div>
